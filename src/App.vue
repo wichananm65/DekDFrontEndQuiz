@@ -34,12 +34,25 @@
       <div class="d-flex align-items-center">
         <p style="color: gray;">จำนวนทั้งหมด {{ novels.length }} </p>
 
-        <button class="btn btn-outline-secondary ms-auto rounded-pill btn-sm">แก้ไข</button>
+        <button class="btn btn-outline-secondary ms-auto rounded-pill btn-sm" @click="toggleEditing">{{ isEditing ?
+          'ลบ' : 'แก้ไข' }}</button>
       </div>
 
       <div class="row g-4">
         <div class="col-12 col-sm-6 col-md-4" v-for="novel in novels" :key="novel.id">
-          <div class="card border-0 d-flex flex-row">
+          <div class="card border-0 d-flex flex-row" :class="{ 'border-primary': selectedIds.includes(novel.id) }">
+
+            <div v-if="isEditing" class="form-check position-absolute top-0 end-0 m-2">
+              <label class="checkbox-wrapper">
+                <input type="checkbox" class="round-checkbox" :value="novel.id" v-model="selectedIds"
+                  style="color: orange;">
+                <span class="checkmark">
+                  <i class="bi bi-check" style="color: white; font-size: 20px;"></i>
+                </span>
+              </label>
+
+            </div>
+
             <img :src="novel.cover" alt="cover" class="card-img-top rounded"
               style="height: 220px; width: 150px; object-fit: cover" />
             <div class="card-body">
@@ -70,72 +83,22 @@ import { Autoplay } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import { novels } from '../src/data/novels.js'
+import '../src/assets/css/checkbox.css'
+import '../src/assets/css/slide.css'
+import { banners } from '../src/data/banners.js'
 
-const banners = ref([
-  { id: 1, image: '../src/assets/ReZero.webp' },
-  { id: 2, image: '../src/assets/iminlovewithvillainess.jpg' },
-  { id: 3, image: '../src/assets/unnamedmemory.jpg' },
-  { id: 4, image: '../src/assets/86-eighty-six-banner.webp' },
-  { id: 1, image: '../src/assets/ReZero.webp' },
-  { id: 2, image: '../src/assets/iminlovewithvillainess.jpg' },
-  { id: 3, image: '../src/assets/unnamedmemory.jpg' },
-  { id: 4, image: '../src/assets/86-eighty-six-banner.webp' },
-])
-
+const isEditing = ref(false)
+const selectedIds = ref([])
+const toggleEditing = () => {
+  if (isEditing.value && selectedIds.value.length > 0) {
+    novels.value = novels.value.filter(novel => !selectedIds.value.includes(novel.id))
+    selectedIds.value = []
+  }
+  isEditing.value = !isEditing.value
+}
 
 </script>
 
 <style scoped>
-.swiper-slide {
-  visibility: visible !important;
-  opacity: 1 !important;
-  transition: none !important;
-  transform: translate3d(0, 0, 0) !important;
-}
 
-.custom-slide {
-  width: 360px;
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.slide-content {
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  transition: box-shadow 0.3s ease;
-  background: white;
-}
-
-.slide-content:hover {
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-}
-
-.slide-content img {
-  width: 100%;
-  height: 500px;
-  display: block;
-  border-radius: 12px 12px 0 0;
-}
-
-@media (max-width: 1024px) {
-  .custom-slide {
-    width: 280px;
-  }
-
-  .slide-content img {
-    height: 180px;
-  }
-}
-
-@media (max-width: 640px) {
-  .custom-slide {
-    width: 220px;
-  }
-
-  .slide-content img {
-    height: 140px;
-  }
-}
 </style>
