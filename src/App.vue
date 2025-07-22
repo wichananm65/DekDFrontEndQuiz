@@ -1,27 +1,17 @@
 <template>
   <header>
-    <div class = "overflow: visible;" style="margin-top: 10px; margin-left: -10vw; margin-right: -10vw;">
-        <Swiper
-        :modules="[Navigation, Autoplay]"
-        :slides-per-view="2"
-        :lazy="true"
-        :load-prev-next="true"
-        :load-prev-next-amount="3"
-        :space-between="30"
-        :centered-slides="true"
-        :loop="true"
-        :looped-slides="banners.length"
-        :autoplay="{ delay: 15000, disableOnInteraction: false }"
-        :watch-slides-progress="true"
-        :slide-visible-class="'swiper-slide-visible'"
-        class="w-full"
-      >
+    <div class="overflow: visible;" style="margin-top: 10px;">
+      <Swiper :modules="[Navigation, Autoplay]" :slides-per-view="2" :lazy="true" :load-prev-next="true"
+        :load-prev-next-amount="3" :space-between="30" :centered-slides="true" :loop="true"
+        :looped-slides="banners.length" :autoplay="{ delay: 15000, disableOnInteraction: false }"
+        :watch-slides-progress="true" :slide-visible-class="'swiper-slide-visible'" class="w-full">
         <SwiperSlide v-for="item in banners" :key="item.id" class="custom-slide">
           <div class="slide-content">
             <img :src="item.image" alt="" />
           </div>
         </SwiperSlide>
       </Swiper>
+
     </div>
   </header>
 
@@ -40,11 +30,31 @@
       margin-left: 100px;
       margin-right: 100px;
       margin-bottom: 1px;">
-        
-      <div class = "d-flex align-items-center" >
-        <p style="color: gray;">จำนวนทั้งหมด</p>
-        
+
+      <div class="d-flex align-items-center">
+        <p style="color: gray;">จำนวนทั้งหมด {{ novels.length }} </p>
+
         <button class="btn btn-outline-secondary ms-auto rounded-pill btn-sm">แก้ไข</button>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-12 col-sm-6 col-md-4" v-for="novel in novels" :key="novel.id">
+          <div class="card border-0 d-flex flex-row">
+            <img :src="novel.cover" alt="cover" class="card-img-top rounded"
+              style="height: 220px; width: 150px; object-fit: cover" />
+            <div class="card-body">
+              <h5 class="card-title" style="font-weight: bold;">{{ novel.title }}</h5>
+              <p class="card-text">{{ novel.author }}</p>
+              <br>
+              <br>
+              <div style="color: gray;">
+                <p class="card-text"><i class="bi bi-list-ul"></i> ตอนที่ {{ novel.chapter }}</p>
+                <p class="card-text"><i class="bi bi-bookmark-fill"></i> คั่นล่าสุด {{ novel.lastBookmark }}</p>
+              </div>
+
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </body>
@@ -59,6 +69,7 @@ import { Navigation } from 'swiper/modules'
 import { Autoplay } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/navigation'
+import { novels } from '../src/data/novels.js'
 
 const banners = ref([
   { id: 1, image: '../src/assets/ReZero.webp' },
@@ -70,6 +81,8 @@ const banners = ref([
   { id: 3, image: '../src/assets/unnamedmemory.jpg' },
   { id: 4, image: '../src/assets/86-eighty-six-banner.webp' },
 ])
+
+
 </script>
 
 <style scoped>
