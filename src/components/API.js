@@ -4,7 +4,7 @@ const BASE_URL = 'https://api.mangadex.org';
 
 const api = axios.create({
     baseURL: BASE_URL,
-    timeout: 100000,
+    timeout: 10000,
 });
 
 function formatDateToThai(dateStr) {
@@ -26,7 +26,7 @@ function mapMangaItem(item) {
     const coverRel = item.relationships?.find(rel => rel.type === 'cover_art');
     const coverFileName = coverRel?.attributes?.fileName;
     const cover = coverFileName
-        ? `https://uploads.mangadex.org/covers/${item.id}/${coverFileName}.256.jpg`
+        ?   `https://uploads.mangadex.org/covers/${item.id}/${coverFileName}.256.jpg`
         : '';
 
     const authorRel = item.relationships?.find(rel => rel.type === 'author');
