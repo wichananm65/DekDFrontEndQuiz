@@ -73,10 +73,21 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
-import { novels } from '../../data/novels.js'
+import { ref, computed, onMounted} from 'vue'
 import { addBookmarks, deleteBookmarks, bookmarks } from '../../data/bookmarks.js'
 const selectedIds = ref([])
+
+//API
+import { fetchMangaList } from '../API.js'
+const novels = ref([])
+onMounted(async () => {
+  try {
+    const data = await fetchMangaList(30)
+    novels.value = data
+  } catch (error) {
+    console.error('Error loading novels:', error)
+  }
+})
 
 import { showMore, showLess, visibleCount } from '../Function/ManageShow.js'
 
@@ -84,7 +95,7 @@ import { showMore, showLess, visibleCount } from '../Function/ManageShow.js'
 import SearchBar from '../Function/searchBar.vue'
 const searchQuery = ref('')
 const filteringNovels = computed(() =>
-    novels.filter(b =>
+    novels.value.filter(b =>
         b.title.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
         b.author.toLowerCase().includes(searchQuery.value.toLowerCase())
     )
@@ -93,14 +104,4 @@ const filteringNovels = computed(() =>
 const filteredNovels = computed(() =>
     filteringNovels.value.slice(0, visibleCount.value)
 )
-
-
-
-
-
-
-
-
-
-
 </script>
