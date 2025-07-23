@@ -49,10 +49,10 @@
         </div>
       </div>
       <!--End Bookmarks Header-->
-      
+
       <!--Bookmarks Card-->
       <div class="row g-4">
-        <div class="col-12 col-sm-6 col-md-4" v-for="bookmark in bookmarks" :key="bookmark.id">
+        <div class="col-12 col-sm-6 col-md-4" v-for="bookmark in bookmarks" :key="bookmark.id" style="cursor: pointer;">
           <div class="card border-0 d-flex flex-row" :class="{ 'border-primary': selectedIds.includes(bookmark.id) }">
 
             <!--Bookmarks checkbox-->
@@ -107,35 +107,46 @@
         <p style="color: gray;">จำนวนทั้งหมด {{ novels.length }} </p>
       </div>
       <!--End Bookmarks Header-->
-      
+
       <!--Novels Card-->
       <div class="row g-4">
-        <div class="col-12 col-sm-6 col-md-4" v-for="novel in novels" :key="novel.id">
+        <div class="col-12 col-sm-6 col-md-4" v-for="novel in novels" :key="novel.id" style="cursor: pointer;">
           <div class="card border-0 d-flex flex-row" :class="{ 'border-primary': selectedIds.includes(novel.id) }">
+
+            <div class="form-check position-absolute top-0 end-0 m-2">
+              <div v-if="bookmarks.some(value => value.id === novel.id)">
+                <i class="bi bi-bookmark-fill" style="color: orange; font-size: 20px;"
+                  @click="deleteBookmarks([novel.id])"></i>
+              </div>
+
+              <div v-else>
+                <i class="bi bi-bookmark" style="color: orange; font-size: 20px;" @click="addBookmarks([novel])"></i>
+              </div>
+            </div>
 
             <img :src="novel.cover" alt="cover" class="card-img-top rounded"
               style="height: 220px; width: 150px; object-fit: cover" />
             <div class="card-body">
               <h5 class="card-title" style="font-weight: bold;">{{ novel.title }}</h5>
               <p class="card-text">{{ novel.author }}</p>
+              <div style="color: gray;">
+                <p class="card-text"><i class="bi bi-list-ul"></i> ตอนที่ {{ novel.chapter }}</p>
+              </div>
               <br>
               <br>
               <div style="color: gray;">
-                <p class="card-text"><i class="bi bi-list-ul"></i> ตอนที่ {{ novel.chapter }}</p>
-                <p class="card-text"><i class="bi bi-bookmark-fill"></i> คั่นล่าสุด {{ novel.lastBookmark }}</p>
+                <p class="card-text"><i class="bi bi-calendar-fill"></i> วันที่อัปโหลด {{ novel.uploadDate }}</p>
               </div>
 
             </div>
           </div>
         </div>
       </div>
-      <!--EndBookmarks Card-->
+      <!--End Novels Card-->
 
     </div>
-    <!--All Novels Card-->
-    
-    <!--End All Novels Card-->
-    
+    <!--End All Novels-->
+
   </body>
 
 
@@ -152,7 +163,7 @@ import { novels } from '../src/data/novels.js'
 import '../src/assets/css/checkbox.css'
 import '../src/assets/css/slide.css'
 import { banners } from '../src/data/banners.js'
-import { bookmarks, deleteBookmarks } from './data/bookmarks.js'
+import { addBookmarks, bookmarks, deleteBookmarks } from './data/bookmarks.js'
 
 const isEditing = ref(false)
 const selectedIds = ref([])
