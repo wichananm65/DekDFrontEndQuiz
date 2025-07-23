@@ -1,11 +1,12 @@
 import { reactive } from 'vue'
+import mock from '../assets/mock.jpg'
 
 export const bookmarks = reactive([
-  { id: 11, title: 'ผู้พิทักษ์แห่งเวลา', author: 'วรพล', chapter: 10, lastBookmark: '20 ก.ค. 68 / 18.05 น.', uploadDate: '18 ก.ค. 68', cover: '../src/assets/mock.jpg' },
-  { id: 12, title: 'เสียงกระซิบ', author: 'อรวรรณ', chapter: 4, lastBookmark: '18 ก.ค. 68 / 21.30 น.', uploadDate: '16 ก.ค. 68', cover: '../src/assets/mock.jpg' },
-  { id: 13, title: 'ดอกไม้ไฟกลางคืน', author: 'นพดล', chapter: 13, lastBookmark: '22 ก.ค. 68 / 10.10 น.', uploadDate: '20 ก.ค. 68', cover: '../src/assets/mock.jpg' },
-  { id: 14, title: 'ทะเลทรายไร้ฝน', author: 'ปริญญา', chapter: 11, lastBookmark: '19 ก.ค. 68 / 16.50 น.', uploadDate: '17 ก.ค. 68', cover: '../src/assets/mock.jpg' },
-  { id: 15, title: 'นักเดินทางแห่งมิติ', author: 'ธเนศ', chapter: 18, lastBookmark: '20 ก.ค. 68 / 14.00 น.', uploadDate: '19 ก.ค. 68', cover: '../src/assets/mock.jpg' },
+  { id: 11, title: 'ผู้พิทักษ์แห่งเวลา', author: 'วรพล', chapter: 10, lastBookmark: '20 ก.ค. 68 / 18.05 น.', uploadDate: '18 ก.ค. 68', cover: mock },
+  { id: 12, title: 'เสียงกระซิบ', author: 'อรวรรณ', chapter: 4, lastBookmark: '18 ก.ค. 68 / 21.30 น.', uploadDate: '16 ก.ค. 68', cover: mock },
+  { id: 13, title: 'ดอกไม้ไฟกลางคืน', author: 'นพดล', chapter: 13, lastBookmark: '22 ก.ค. 68 / 10.10 น.', uploadDate: '20 ก.ค. 68', cover: mock },
+  { id: 14, title: 'ทะเลทรายไร้ฝน', author: 'ปริญญา', chapter: 11, lastBookmark: '19 ก.ค. 68 / 16.50 น.', uploadDate: '17 ก.ค. 68', cover: mock },
+  { id: 15, title: 'นักเดินทางแห่งมิติ', author: 'ธเนศ', chapter: 18, lastBookmark: '20 ก.ค. 68 / 14.00 น.', uploadDate: '19 ก.ค. 68', cover: mock },
 ])
 
 export const deleteBookmarks = (selectedIds) => {

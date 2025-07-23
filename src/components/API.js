@@ -4,7 +4,7 @@ const BASE_URL = 'https://api.mangadex.org';
 
 const api = axios.create({
     baseURL: BASE_URL,
-    timeout: 10000,
+    timeout: 100000,
 });
 
 function formatDateToThai(dateStr) {

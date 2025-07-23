@@ -1,10 +1,15 @@
+import Rezero from '../assets/ReZero.webp'
+import Iminlovewithvillainess from '../assets/iminlovewithvillainess.jpg'
+import Unnamedmemory from '../assets/unnamedmemory.jpg'
+import EightySix from '../assets/86-eighty-six-banner.webp'
+
 export const banners = [
-  { id: 1, image: '../src/assets/ReZero.webp' },
-  { id: 2, image: '../src/assets/iminlovewithvillainess.jpg' },
-  { id: 3, image: '../src/assets/unnamedmemory.jpg' },
-  { id: 4, image: '../src/assets/86-eighty-six-banner.webp' },
-  { id: 1, image: '../src/assets/ReZero.webp' },
-  { id: 2, image: '../src/assets/iminlovewithvillainess.jpg' },
-  { id: 3, image: '../src/assets/unnamedmemory.jpg' },
-  { id: 4, image: '../src/assets/86-eighty-six-banner.webp' },
+  { id: 1, image: Rezero },
+  { id: 2, image: Iminlovewithvillainess },
+  { id: 3, image: Unnamedmemory },
+  { id: 4, image: EightySix },
+  { id: 1, image: Rezero },
+  { id: 2, image: Iminlovewithvillainess },
+  { id: 3, image: Unnamedmemory },
+  { id: 4, image: EightySix },
 ]
