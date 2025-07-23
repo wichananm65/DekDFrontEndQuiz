@@ -1,9 +1,10 @@
 <template>
+  <!--Banner-->
   <header>
-    <div class="overflow: visible;" style="margin-top: 10px;">
+    <div style="margin-top: 10px;">
       <Swiper :modules="[Navigation, Autoplay]" :slides-per-view="2" :lazy="true" :load-prev-next="true"
         :load-prev-next-amount="3" :space-between="30" :centered-slides="true" :loop="true"
-        :looped-slides="banners.length" :autoplay="{ delay: 15000, disableOnInteraction: false }"
+        :looped-slides="banners.length" :autoplay="{ delay: 10000, disableOnInteraction: false }"
         :watch-slides-progress="true" :slide-visible-class="'swiper-slide-visible'" class="w-full">
         <SwiperSlide v-for="item in banners" :key="item.id" class="custom-slide">
           <div class="slide-content">
@@ -11,47 +12,106 @@
           </div>
         </SwiperSlide>
       </Swiper>
-
     </div>
   </header>
-
+  <!--End Banner-->
 
   <body>
+    <!--Bookmarks-->
     <div style="
       margin-top: 100px; 
       margin-left: 100px;
       margin-right: 100px;
       margin-bottom: 1px;">
-      <h1 class="h5 fw-bold mb-3">รายการที่คั่นไว้</h1>
+      <p style="font-size: xx-large; font-weight: bold;">รายการที่คั่นไว้</p>
     </div>
     <hr>
-    <div style="
+    <div style="    
       margin-top: 50px; 
       margin-left: 100px;
       margin-right: 100px;
       margin-bottom: 1px;">
-
+      <!--Bookmarks Header-->
       <div class="d-flex align-items-center">
-        <p style="color: gray;">จำนวนทั้งหมด {{ novels.length }} </p>
+        <p style="color: gray;">จำนวนทั้งหมด {{ bookmarks.length }} </p>
 
-        <button class="btn btn-outline-secondary ms-auto rounded-pill btn-sm" @click="toggleEditing">{{ isEditing ?
-          'ลบ' : 'แก้ไข' }}</button>
+        <div class="d-flex ms-auto">
+          <div v-if="!isEditing">
+            <button class="btn btn-outline-secondary ms-auto rounded-pill btn-sm" @click="toggleEditing">แก้ไข</button>
+          </div>
+
+          <div v-if="isEditing">
+            <button class="btn btn-outline-secondary rounded-pill btn-sm" @click="toggleEditing"
+              style="margin-right: 10px;"> ยกเลิก </button>
+            <button class="btn btn-outline-secondary rounded-pill btn-sm" @click="unBookmarks(selectedIds)"><i
+                class="bi bi-trash"></i> {{ selectedIds.length }} รายการ </button>
+          </div>
+        </div>
       </div>
-
+      <!--End Bookmarks Header-->
+      
+      <!--Bookmarks Card-->
       <div class="row g-4">
-        <div class="col-12 col-sm-6 col-md-4" v-for="novel in novels" :key="novel.id">
-          <div class="card border-0 d-flex flex-row" :class="{ 'border-primary': selectedIds.includes(novel.id) }">
+        <div class="col-12 col-sm-6 col-md-4" v-for="bookmark in bookmarks" :key="bookmark.id">
+          <div class="card border-0 d-flex flex-row" :class="{ 'border-primary': selectedIds.includes(bookmark.id) }">
 
+            <!--Bookmarks checkbox-->
             <div v-if="isEditing" class="form-check position-absolute top-0 end-0 m-2">
               <label class="checkbox-wrapper">
-                <input type="checkbox" class="round-checkbox" :value="novel.id" v-model="selectedIds"
+                <input type="checkbox" class="round-checkbox" :value="bookmark.id" v-model="selectedIds"
                   style="color: orange;">
                 <span class="checkmark">
                   <i class="bi bi-check" style="color: white; font-size: 20px;"></i>
                 </span>
               </label>
+            </div>
+            <!--End Bookmarks checkbox-->
+
+            <img :src="bookmark.cover" alt="cover" class="card-img-top rounded"
+              style="height: 220px; width: 150px; object-fit: cover" />
+            <div class="card-body">
+              <h5 class="card-title" style="font-weight: bold;">{{ bookmark.title }}</h5>
+              <p class="card-text">{{ bookmark.author }}</p>
+              <br>
+              <br>
+              <div style="color: gray;">
+                <p class="card-text"><i class="bi bi-list-ul"></i> ตอนที่ {{ bookmark.chapter }}</p>
+                <p class="card-text"><i class="bi bi-bookmark-fill"></i> คั่นล่าสุด {{ bookmark.lastBookmark }}</p>
+              </div>
 
             </div>
+          </div>
+        </div>
+      </div>
+      <!--EndBookmarks Card-->
+
+    </div>
+    <!--End Bookmarks-->
+
+    <!--All Novels-->
+    <div style="
+      margin-top: 100px; 
+      margin-left: 100px;
+      margin-right: 100px;
+      margin-bottom: 1px;">
+      <p style="font-size: xx-large; font-weight: bold;">รายการทั้งหมด</p>
+    </div>
+    <hr>
+    <div style="    
+      margin-top: 50px; 
+      margin-left: 100px;
+      margin-right: 100px;
+      margin-bottom: 1px;">
+      <!--Novels Header-->
+      <div class="d-flex align-items-center">
+        <p style="color: gray;">จำนวนทั้งหมด {{ novels.length }} </p>
+      </div>
+      <!--End Bookmarks Header-->
+      
+      <!--Novels Card-->
+      <div class="row g-4">
+        <div class="col-12 col-sm-6 col-md-4" v-for="novel in novels" :key="novel.id">
+          <div class="card border-0 d-flex flex-row" :class="{ 'border-primary': selectedIds.includes(novel.id) }">
 
             <img :src="novel.cover" alt="cover" class="card-img-top rounded"
               style="height: 220px; width: 150px; object-fit: cover" />
@@ -69,7 +129,13 @@
           </div>
         </div>
       </div>
+      <!--EndBookmarks Card-->
+
     </div>
+    <!--All Novels Card-->
+    
+    <!--End All Novels Card-->
+    
   </body>
 
 
@@ -86,19 +152,22 @@ import { novels } from '../src/data/novels.js'
 import '../src/assets/css/checkbox.css'
 import '../src/assets/css/slide.css'
 import { banners } from '../src/data/banners.js'
+import { bookmarks, deleteBookmarks } from './data/bookmarks.js'
 
 const isEditing = ref(false)
 const selectedIds = ref([])
+
 const toggleEditing = () => {
-  if (isEditing.value && selectedIds.value.length > 0) {
-    novels.value = novels.value.filter(novel => !selectedIds.value.includes(novel.id))
-    selectedIds.value = []
-  }
   isEditing.value = !isEditing.value
+  selectedIds.value = []
+}
+
+const unBookmarks = (selectedIds) => {
+  deleteBookmarks(selectedIds)
+  selectedIds.value = []
+  toggleEditing()
 }
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
