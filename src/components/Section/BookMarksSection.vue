@@ -121,8 +121,4 @@ const filteredBookmarks = computed(() =>
 
 </script>
 
-<style scoped>
-body {
-  font-family: 'Prompt', sans-serif;
-}
-</style>
+<style scoped></style>
