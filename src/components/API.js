@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://api.mangadex.org';
+const BASE_URL = 'https://curly-shadow-1ac0.wichananm65.workers.dev/';
 
 const api = axios.create({
     baseURL: BASE_URL,
@@ -26,7 +26,7 @@ function mapMangaItem(item) {
     const coverRel = item.relationships?.find(rel => rel.type === 'cover_art');
     const coverFileName = coverRel?.attributes?.fileName;
     const cover = coverFileName
-        ?   `https://uploads.mangadex.org/covers/${item.id}/${coverFileName}.256.jpg`
+        ?   `${BASE_URL}covers/${item.id}/${coverFileName}.256.jpg`
         : '';
 
     const authorRel = item.relationships?.find(rel => rel.type === 'author');
