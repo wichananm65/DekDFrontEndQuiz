@@ -16,7 +16,7 @@
     </div>
 
     <!--Card-->
-    <div class="row g-4" style="margin-bottom: 30px;">
+    <div class="row g-4 mt-3 mb-5">
       <div class="col-4 col-sm-6 col-md-4" v-for="novel in filteredNovels" :key="novel.id" style="cursor: pointer;">
         <div class="card border-0" :class="{ 'border-primary': selectedIds.includes(novel.id) }">
           <div class="form-check position-absolute top-0 end-0 m-2">
@@ -106,8 +106,6 @@ onMounted(async () => {
   }
 })
 
-import { showMore, showLess, visibleCount } from '../Function/ManageShow.js'
-
 //Search Function
 import SearchBar from '../Function/searchBar.vue'
 const searchQuery = ref('')
@@ -118,6 +116,13 @@ const filteringNovels = computed(() =>
   )
 )
 
+const visibleCount = ref(9)
+const showMore = () => {
+  visibleCount.value += 6
+}
+const showLess = () => {
+  visibleCount.value = Math.max(9, visibleCount.value - 6)
+}
 const filteredNovels = computed(() =>
   filteringNovels.value.slice(0, visibleCount.value)
 )

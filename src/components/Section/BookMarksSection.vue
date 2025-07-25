@@ -2,15 +2,15 @@
   <div class="container my-5">
     <div class="d-flex align-items-center flex-wrap">
       <p style="font-size: xx-large; font-weight: bold;">รายการที่คั่นไว้</p>
-      <div class="ms-auto" style="min-width: 200px; max-width: 100%;">
-        <SearchBar v-model="searchQuery" />
+      <div class="ms-auto d-flex flex-row" style="min-width: 200px; max-width: 100%;">
+        <SearchBar v-model="searchQuery" v-model:modelSort="SortBy" />
       </div>
     </div>
   </div>
   <hr />
   <div class="container my-5">
     <div class="d-flex align-items-center flex-wrap">
-      <p style="color: gray;">จำนวนทั้งหมด {{ filteredBookmarks.length }}</p>
+      <p style="color: gray;">จำนวนทั้งหมด {{ bookmarks.length }}</p>
 
       <div class="d-flex ms-auto">
         <div v-if="!isEditing">
@@ -87,8 +87,8 @@
 import { ref } from 'vue'
 import { bookmarks, deleteBookmarks } from '../../data/bookmarks.js'
 import { computed } from 'vue'
-import { showMore, showLess, visibleCount } from '../Function/ManageShow.js'
 import SearchBar from '../Function/searchBar.vue'
+import SortBy from '../Function/sortBy.vue'
 
 const isEditing = ref(false)
 const selectedIds = ref([])
@@ -112,6 +112,13 @@ const filteringBookmarks = computed(() =>
   )
 )
 
+const visibleCount = ref(9)
+const showMore = () => {
+  visibleCount.value += 6
+}
+const showLess = () => {
+  visibleCount.value = Math.max(9, visibleCount.value - 6)
+}
 const filteredBookmarks = computed(() =>
   filteringBookmarks.value.slice(0, visibleCount.value)
 )

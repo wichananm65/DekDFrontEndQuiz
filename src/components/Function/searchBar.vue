@@ -1,27 +1,64 @@
 <template>
-  <input
-    type="text"
-    v-model="searchQuery"
-    placeholder="ค้นหา..."
-    class="form-control"
-    style="border-radius: 100px;"
-    @input="$emit('update:modelValue', searchQuery)"
-  />
+  <div class="button-group" style="border: 1px solid #ccc; border-radius: 30px; overflow: hidden;">
+    <div class="d-flex flex-row align-items-center">
+      <button
+        type="button"
+        class="btn btn-outline-secondary btn-sm dropdown-toggle"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+        style="border: none; background: transparent;"
+      >
+        <i class="bi bi-funnel ms-auto" style="color: gray;"></i>  
+        <span class="ms-1">{{ sortLabels[sortBy] }}</span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="#" @click.prevent="setSort('title')">ตัวอักษร</a></li>
+        <li><a class="dropdown-item" href="#" @click.prevent="setSort('uploadDate')">วันที่อัปโหลด</a></li>
+        <li><a class="dropdown-item" href="#" @click.prevent="setSort('lastBookmark')">วันที่คั่น</a></li>
+      </ul>
+      <input
+        type="text"
+        v-model="searchQuery"
+        placeholder="ค้นหา..."
+        class="form-control"
+        @input="$emit('update:modelValue', searchQuery)"
+      />
+    </div>
+  </div>
 </template>
 
 <script setup>
 import { ref, watch } from 'vue'
 
 const props = defineProps({
-  modelValue: String
+  modelValue: String,
+  modelSort: {
+    type: String,
+    default: 'title'
+  }
 })
 
+const emits = defineEmits(['update:modelValue', 'update:modelSort'])
+
 const searchQuery = ref(props.modelValue || '')
+const sortBy = ref(props.modelSort || 'title')
+
+const sortLabels = {
+  title: 'ตัวอักษร',
+  uploadDate: 'วันที่อัปโหลด',
+  lastBookmark: 'วันที่คั่น'
+}
+
 watch(() => props.modelValue, (newVal) => {
   searchQuery.value = newVal
 })
 
-</script>
+watch(() => props.modelSort, (newVal) => {
+  sortBy.value = newVal
+})
 
-<style scoped>
-</style>
+function setSort(key) {
+  sortBy.value = key
+  emits('update:modelSort', key)
+}
+</script>

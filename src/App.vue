@@ -13,6 +13,7 @@ import AllNovelsSection from './components/Section/AllNovelsSection.vue'
 import BookMarksSection from './components/Section/BookMarksSection.vue'
 import './assets/css/custom-card.css'
 import './assets/css/custom-checkbox.css'
+import './components/Function/sortBy.vue'
 </script>
 
 <style scoped>
