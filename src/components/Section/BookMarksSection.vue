@@ -1,15 +1,15 @@
 <template>
-  <div style="margin-top: 100px; margin-left: 100px; margin-right: 100px; margin-bottom: 1px;">
-    <div class="d-flex align-items-center">
+  <div class="container my-5">
+    <div class="d-flex align-items-center flex-wrap">
       <p style="font-size: xx-large; font-weight: bold;">รายการที่คั่นไว้</p>
-      <div class="ms-auto">
+      <div class="ms-auto" style="min-width: 200px; max-width: 100%;">
         <SearchBar v-model="searchQuery" />
       </div>
     </div>
-
-    <hr />
-
-    <div class="d-flex align-items-center">
+  </div>
+  <hr />
+  <div class="container my-5">
+    <div class="d-flex align-items-center flex-wrap">
       <p style="color: gray;">จำนวนทั้งหมด {{ filteredBookmarks.length }}</p>
 
       <div class="d-flex ms-auto">
@@ -28,15 +28,15 @@
     </div>
 
     <!--Card-->
-    <div class="row g-4 mt-3" style="margin-bottom: 30px;">
-      <div class="col-12 col-sm-6 col-md-4" v-for="bookmark in filteredBookmarks.slice(0, visibleBooksMarksCount)"
+    <div class="row g-4 mt-3 mb-5">
+      <div class="col-6 col-sm-6 col-md-4" v-for="bookmark in filteredBookmarks.slice(0, visibleBooksMarksCount)"
         :key="bookmark.id" style="cursor: pointer;">
-        <div class="card border-0 d-flex flex-row" :class="{ 'border-primary': selectedIds.includes(bookmark.id) }">
+        <div class="card border-0 " :class="{ 'border-primary': selectedIds.includes(bookmark.id) }">
 
           <!--Checkbox-->
           <div v-if="isEditing" class="form-check position-absolute top-0 end-0 m-2">
             <label class="checkbox-wrapper">
-              <input type="checkbox" class="round-checkbox" :value="bookmark.id" v-model="selectedIds">
+              <input type="checkbox" class="round-checkbox" :value="bookmark.id" v-model="selectedIds" />
               <span class="checkmark">
                 <i class="bi bi-check" style="color: white; font-size: 20px;"></i>
               </span>
@@ -44,12 +44,11 @@
           </div>
           <!--End Checkbox-->
 
-          <img :src="bookmark.cover" alt="cover" class="card-img-top rounded"
-            style="height: 220px; width: 150px; object-fit: cover" />
+          <img :src="bookmark.cover" />
           <div class="card-body">
-            <h5 class="card-title" style="font-weight: bold;">{{ bookmark.title }}</h5>
+            <p class="card-title">{{ bookmark.title }}</p>
             <p class="card-text">{{ bookmark.author }}</p>
-            <br />
+            <br class="hide-mobile" />
             <div style="color: gray;">
               <p class="card-text"><i class="bi bi-list-ul"></i> ตอนที่ {{ bookmark.chapter }}</p>
               <p class="card-text"><i class="bi bi-bookmark-fill"></i> คั่นล่าสุด {{ bookmark.lastBookmark }}</p>
@@ -61,7 +60,7 @@
     <!--End Card-->
 
     <!--Show More/Less Buttons-->
-    <div class="d-flex justify-content-center" style="margin-bottom: 50px;">
+    <div class="d-flex justify-content-center flex-wrap" style="margin-bottom: 50px; gap: 10px;">
       <div v-if="visibleCount > 9">
         <button class="btn btn-outline-secondary" @click="showLess"
           style="margin-right: 20px; border: 3px solid palevioletred; color: palevioletred;">แสดงน้อยลง</button>
@@ -116,13 +115,4 @@ const filteringBookmarks = computed(() =>
 const filteredBookmarks = computed(() =>
   filteringBookmarks.value.slice(0, visibleCount.value)
 )
-
-
-
 </script>
-
-<style scoped>
-body {
-  font-family: 'Prompt', sans-serif;
-}
-</style>
