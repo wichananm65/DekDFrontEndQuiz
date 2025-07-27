@@ -1,19 +1,16 @@
 <template>
-  <div class="container my-5">
+  <div class="container my-5 mb-0">
     <div class="d-flex align-items-center flex-wrap">
       <p style="font-size: xx-large; font-weight: bold;">รายการทั้งหมด</p>
       <div class="ms-auto" style="min-width: 200px; max-width: 100%;">
-        <SearchBar v-model="searchQuery" />
+        <SearchBar v-model="searchQuery" v-model:modelSort="sortQuery" :show-sort="false" />
       </div>
     </div>
   </div>
 
   <hr />
 
-  <div class="container" style="margin-top: 50px; margin-bottom: 10px;">
-    <div class="d-flex align-items-center">
-      <p style="color: gray;">จำนวนทั้งหมด {{ filteredNovels.length }} </p>
-    </div>
+  <div class="container" style="margin-bottom: 10px;">
 
     <!--Card-->
     <div class="row g-4 mt-3 mb-5">
@@ -92,38 +89,59 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { addBookmarks, deleteBookmarks, bookmarks } from '../../data/bookmarks.js'
-const selectedIds = ref([])
-
-//API
 import { fetchMangaList } from '../API.js'
+
+const selectedIds = ref([])
 const novels = ref([])
-onMounted(async () => {
+const visibleCount = ref(9)
+
+const limit = 100
+let offset = 0
+
+// API
+async function loadMoreNovels() {
   try {
-    const data = await fetchMangaList(30)
-    novels.value = data
+    const data = await fetchMangaList(limit, offset)
+    if (data.length > 0) {
+      novels.value = [...novels.value, ...data]
+      offset += limit
+    }
   } catch (error) {
     console.error('Error loading novels:', error)
   }
+}
+onMounted(() => {
+  loadMoreNovels()
 })
 
-//Search Function
+//Search Sort Function
 import SearchBar from '../Function/searchBar.vue'
+import { parseThaiDate } from '../Function/parseThaiDate.js'
 const searchQuery = ref('')
 const filteringNovels = computed(() =>
-  novels.value.filter(b =>
+  sortedNovels.value.filter(b =>
     b.title.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
     b.author.toLowerCase().includes(searchQuery.value.toLowerCase())
   )
 )
+const filteredNovels = computed(() =>
+  filteringNovels.value.slice(0, visibleCount.value)
+)
+const sortedNovels = computed(() => {
+  return [...novels.value].sort((a, b) => {
+      return new parseThaiDate(b.uploadDate) - new parseThaiDate(a.uploadDate)
+  })
+})
 
-const visibleCount = ref(9)
+// Show more/less
 const showMore = () => {
   visibleCount.value += 6
+  if (visibleCount.value > novels.value.length) {
+    loadMoreNovels()
+  }
 }
 const showLess = () => {
   visibleCount.value = Math.max(9, visibleCount.value - 6)
 }
-const filteredNovels = computed(() =>
-  filteringNovels.value.slice(0, visibleCount.value)
-)
+
 </script>

@@ -1,14 +1,9 @@
 <template>
   <div class="button-group" style="border: 1px solid #ccc; border-radius: 30px; overflow: hidden;">
     <div class="d-flex flex-row align-items-center">
-      <button
-        type="button"
-        class="btn btn-outline-secondary btn-sm dropdown-toggle"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-        style="border: none; background: transparent;"
-      >
-        <i class="bi bi-funnel ms-auto" style="color: gray;"></i>  
+      <button v-if="showSort" type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle"
+        data-bs-toggle="dropdown" aria-expanded="false" style="border: none; background: transparent;">
+        <i class="bi bi-funnel ms-auto" style="color: gray;"></i>
         <span class="ms-1">{{ sortLabels[sortBy] }}</span>
       </button>
       <ul class="dropdown-menu">
@@ -16,13 +11,8 @@
         <li><a class="dropdown-item" href="#" @click.prevent="setSort('uploadDate')">วันที่อัปโหลด</a></li>
         <li><a class="dropdown-item" href="#" @click.prevent="setSort('lastBookmark')">วันที่คั่น</a></li>
       </ul>
-      <input
-        type="text"
-        v-model="searchQuery"
-        placeholder="ค้นหา..."
-        class="form-control"
-        @input="$emit('update:modelValue', searchQuery)"
-      />
+      <input type="text" v-model="searchQuery" placeholder="ค้นหา..." class="form-control"
+        @input="$emit('update:modelValue', searchQuery)" />
     </div>
   </div>
 </template>
@@ -35,6 +25,10 @@ const props = defineProps({
   modelSort: {
     type: String,
     default: 'title'
+  },
+  showSort: {
+    type: Boolean,
+    default: true
   }
 })
 
@@ -61,4 +55,6 @@ function setSort(key) {
   sortBy.value = key
   emits('update:modelSort', key)
 }
+
+
 </script>

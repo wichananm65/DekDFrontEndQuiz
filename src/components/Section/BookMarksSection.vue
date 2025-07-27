@@ -3,7 +3,7 @@
     <div class="d-flex align-items-center flex-wrap">
       <p style="font-size: xx-large; font-weight: bold;">รายการที่คั่นไว้</p>
       <div class="ms-auto d-flex flex-row" style="min-width: 200px; max-width: 100%;">
-        <SearchBar v-model="searchQuery" v-model:modelSort="SortBy" />
+        <SearchBar v-model="searchQuery" v-model:modelSort="sortQuery" :showSort="true" />
       </div>
     </div>
   </div>
@@ -87,8 +87,7 @@
 import { ref } from 'vue'
 import { bookmarks, deleteBookmarks } from '../../data/bookmarks.js'
 import { computed } from 'vue'
-import SearchBar from '../Function/searchBar.vue'
-import SortBy from '../Function/sortBy.vue'
+
 
 const isEditing = ref(false)
 const selectedIds = ref([])
@@ -104,14 +103,7 @@ const unBookmarks = (ids) => {
   toggleEditing()
 }
 
-const searchQuery = ref('')
-const filteringBookmarks = computed(() =>
-  bookmarks.filter(b =>
-    b.title.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-    b.author.toLowerCase().includes(searchQuery.value.toLowerCase())
-  )
-)
-
+//Show more/less
 const visibleCount = ref(9)
 const showMore = () => {
   visibleCount.value += 6
@@ -119,7 +111,35 @@ const showMore = () => {
 const showLess = () => {
   visibleCount.value = Math.max(9, visibleCount.value - 6)
 }
+
+//Search Sort Function
+import SearchBar from '../Function/searchBar.vue'
+import { parseThaiDate } from '../Function/parseThaiDate.js'
+const searchQuery = ref('')
+const sortQuery = ref('lastBookmark')
+const filteringBookmarks = computed(() =>
+  sortedBookmarks.value.filter(b =>
+    b.title.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+    b.author.toLowerCase().includes(searchQuery.value.toLowerCase())
+  )
+)
+
+
+
 const filteredBookmarks = computed(() =>
   filteringBookmarks.value.slice(0, visibleCount.value)
 )
+const sortedBookmarks = computed(() => {
+  return [...bookmarks].sort((a, b) => {
+    if (sortQuery.value === 'title') {
+      return a.title.localeCompare(b.title)
+    } else if (sortQuery.value === 'uploadDate') {
+      return parseThaiDate(b.uploadDate) - parseThaiDate(a.uploadDate)
+    } else if (sortQuery.value === 'lastBookmark') {
+      return parseThaiDate(b.lastBookmark) - parseThaiDate(a.lastBookmark)
+    }
+    return 0
+  })
+})
+
 </script>

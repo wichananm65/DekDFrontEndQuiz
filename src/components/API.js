@@ -42,11 +42,12 @@ function mapMangaItem(item) {
     };
 }
 
-export async function fetchMangaList(limit = 20) {
+export async function fetchMangaList(limit = 100, offset = 0) {
     try {
         const res = await api.get('/manga', {
             params: {
                 limit,
+                offset,
                 includes: ['cover_art', 'author'],
                 availableTranslatedLanguage: ['en', 'th'],
                 order: {
@@ -72,3 +73,5 @@ export async function get(url, config = {}) {
 export default {
     fetchMangaList,
 };
+
+
