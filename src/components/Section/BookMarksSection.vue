@@ -1,9 +1,14 @@
 <template>
   <div class="container my-5">
-    <div class="d-flex align-items-center flex-wrap">
-      <p style="font-size: xx-large; font-weight: bold;">รายการที่คั่นไว้</p>
-      <div class="ms-auto d-flex flex-row" style="min-width: 200px; max-width: 100%;">
-        <SearchBar v-model="searchQuery" v-model:modelSort="sortQuery" :showSort="true" />
+    <div class="d-flex align-items-center flex-row">
+      <div>
+        <p class="topic">รายการที่คั่นไว้</p>
+      </div>
+      <div class="ms-auto d-flex flex-row">
+        <div class="mx-auto mx-md-0">
+          <SearchBar v-model="searchQuery" v-model:modelSort="sortQuery" :showSort="true" />
+        </div>
+        
       </div>
     </div>
   </div>
@@ -143,3 +148,17 @@ const sortedBookmarks = computed(() => {
 })
 
 </script>
+
+<style>
+  .topic {
+    font-size: 30px !important;
+    font-weight: bold;
+  }
+
+  @media (max-width: 576px) {
+    .topic {
+    font-size: 25px !important;
+    font-weight: bold;
+  }
+  }
+</style>

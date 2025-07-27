@@ -1,8 +1,8 @@
 <template>
   <div class="container my-5 mb-0">
     <div class="d-flex align-items-center flex-wrap">
-      <p style="font-size: xx-large; font-weight: bold;">รายการทั้งหมด</p>
-      <div class="ms-auto" style="min-width: 200px; max-width: 100%;">
+      <p class = "topic">รายการทั้งหมด</p>
+      <div class="ms-auto">
         <SearchBar v-model="searchQuery" v-model:modelSort="sortQuery" :show-sort="false" />
       </div>
     </div>
@@ -145,3 +145,17 @@ const showLess = () => {
 }
 
 </script>
+
+<style>
+  .topic {
+    font-size: 30px !important;
+    font-weight: bold;
+  }
+
+  @media (max-width: 576px) {
+    .topic {
+    font-size: 25px !important;
+    font-weight: bold;
+  }
+  }
+</style>

@@ -1,7 +1,8 @@
 <template>
-  <div class="button-group" style="border: 1px solid #ccc; border-radius: 30px; overflow: hidden;">
-    <div class="d-flex flex-row align-items-center">
-      <button v-if="showSort" type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle"
+  <div class="button-group scale-control" style="border: 1px solid #ccc; border-radius: 30px; overflow: hidden; max-width: 300px;">
+
+      <div class="d-flex flex-row align-items-center">
+        <button v-if="showSort" type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle"
         data-bs-toggle="dropdown" aria-expanded="false" style="border: none; background: transparent;">
         <i class="bi bi-funnel ms-auto" style="color: gray;"></i>
         <span class="ms-1">{{ sortLabels[sortBy] }}</span>
@@ -13,7 +14,9 @@
       </ul>
       <input type="text" v-model="searchQuery" placeholder="ค้นหา..." class="form-control"
         @input="$emit('update:modelValue', searchQuery)" />
+
     </div>
+    
   </div>
 </template>
 
@@ -58,3 +61,14 @@ function setSort(key) {
 
 
 </script>
+
+<style>
+@media (max-width: 576px) {
+  .form-control {
+    max-width: 100px;
+  }
+  .scale-control {
+    margin-bottom: 10px;
+  }
+}
+</style>
